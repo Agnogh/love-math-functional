@@ -1,21 +1,32 @@
 // Wait for the DOM to finish loading before running the game
 // Get the button elements and add event listeners to them
 
+/* Good idea to wait for DOM to finish loading before starting to run the code as it might trying to target elements that havent loaded yet and dont exist */
 document.addEventListener("DOMContentLoaded", function() {
     let buttons = document.getElementsByTagName("button");
+/**
+ * we are tagging by tag name that is button and we have 5 in total
+ * for (let i = 0; i < buttons.length; i++) -> this is less modern syntax)
+ */
 
-    for (let button of buttons) {
-        button.addEventListener("click", function() {
-            if (this.getAttribute("data-type") === "submit") {
-                checkAnswer();
+    for (let button of buttons) {   /* goes through our button array and return each element in array which will be stored in that variable button on each iteration */
+        button.addEventListener("click", function() {   /* button represents individual button element  */ 
+            if (this.getAttribute("data-type") === "submit") {  /* "this" refers to the button that was just clicked. Checks the attribute of the data type to see the value and if it is EQUAL to submit you are getting Alert message*/
+                /* alert("You clicked Submit!"); */
+                checkAnswer();  /* this calls out the function below called "checkFunction"  */
             } else {
                 let gameType = this.getAttribute("data-type");
+                /*alert(`You clicked ${gameType}`); */
                 runGame(gameType);
             }
         });
     }
 
     document.getElementById("answer-box").addEventListener("keydown", function(event) {
+    /**
+     * listening for the "keydown event" (when the key is pressed)
+     * and if the key pressed in "Enter", then run function
+     */
         if (event.key === "Enter") {
             checkAnswer();
         }
@@ -30,8 +41,15 @@ document.addEventListener("DOMContentLoaded", function() {
  * and after the user's answer has been processed
  */
 function runGame(gameType) {
-
+/**
+ * below code clears out the value in the 
+ * answer box by making it appear blank
+ */
     document.getElementById("answer-box").value = "";
+/**
+* below code creates that cursor 
+always shows up on the text box
+*/
     document.getElementById("answer-box").focus();
 
     // Creates two random numbers between 1 and 25
@@ -87,6 +105,11 @@ function calculateCorrectAnswer() {
 
     if (operator === "+") {
         return [operand1 + operand2, "addition"];
+        /** 
+         * calucaltes num1 and num2 
+         * and calles the fucntion "addition" 
+         * that means "Keep playing addition game"
+         * */ 
     } else if (operator === "x") {
         return [operand1 * operand2, "multiply"];
     } else if (operator === "-") {
@@ -115,7 +138,7 @@ function incrementScore() {
  */
 function incrementWrongAnswer() {
 
-    let oldScore = parseInt(document.getElementById("incorrect").innerText);
+    let oldScore = parseInt(document.getElementById("incorrect").innerText);    /* we are calling out different id  */
     document.getElementById("incorrect").innerText = ++oldScore;
     
 }
@@ -131,6 +154,13 @@ function displayAdditionQuestion(operand1, operand2) {
 function displaySubtractQuestion(operand1, operand2) {
 
     document.getElementById("operand1").textContent = operand1 > operand2 ? operand1 : operand2;
+        /**
+     * this works same as IF statement
+     * condition that we are checking goes BEFORE question mark which means
+     * is operand 1 bigger than operand 2 and if so...
+     * return operand1
+     * if not (else part) return operand2
+     */
     document.getElementById("operand2").textContent = operand1 > operand2 ? operand2 : operand1;
     document.getElementById('operator').textContent = "-";
 
